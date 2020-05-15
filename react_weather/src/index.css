@@ -34,7 +34,6 @@ main {
   display: block;
   width: 100%;
   padding: 15px;
-
   appearance: none;
   background: none;
   border: none;
@@ -51,6 +50,11 @@ main {
 
   transition: 0.4s ease;
 }
+
+input.search-bar{
+  background-color: blue;
+}
+
 
 .search-box .search-bar:focus {
   background-color: rgba(255, 255, 255, 0.75);

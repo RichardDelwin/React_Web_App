@@ -3,7 +3,7 @@ import React, { useState }from 'react';
 //api call api.openweathermap.org/data/2.5/weather?q={city name},{state},{country code}&appid={your api key}
 const api = {
   'key':'6da82f453f47007bc5dca0b7a6901167',
-  'call': 'api.openweathermap.org/data/2.5/weather?'
+  'call': 'api.openweathermap.org/data/2.5/'
 }
 
 function App() {
@@ -12,15 +12,21 @@ function App() {
   const [weather, setWeather] = useState({});
 
   const search = evt => {
+
     if (evt.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-        .then(res => res.json())
-        .then(result => {
+      console.log(`${api.call}weather?q=${query},karnataka,ind&units=metric&APPID=${api.key}`)
+      fetch(`${api.call}weather?q=${query},karnataka,ind&units=metric&APPID=${api.key}`)
+        .then(res =>
+          res.text())
+          .then(text => console.log(text))
+        /*.then(result => {
           setWeather(result);
           setQuery('');
-          console.log(result);
-        });
-    }
+          console.log(weather);
+        });*/
+    
+      }
+      console.log(query)
   }
 
   const dateBuilder = (d) => {
@@ -36,14 +42,14 @@ function App() {
   }
   
   return (
-    <div className="App">
+    <div className={(typeof weather.main != "undefined") ? ((weather.main.temp > 16) ? 'app warm' : 'app') : 'app'}>
       <main>
         <div className="search-box">
           <input 
             type="text"
             className="search-bar"
             placeholder="Search..."
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e)=> setQuery(e.target.value)}
             value={query}
             onKeyPress={search}
           />
