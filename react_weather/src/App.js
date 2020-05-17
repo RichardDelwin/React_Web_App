@@ -1,11 +1,12 @@
 import React, { useState }from 'react';
-import {Navbar, Nav, NavDropdown, Button, FormControl, Form} from 'react-bootstrap';
-
+import Navbar from "./layout/navbar";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+import About from "./layout/About"
 
 //api call api.openweathermap.org/data/2.5/weather?q={city name},{state},{country code}&appid={your api key}
 const api = {
   'key':'6da82f453f47007bc5dca0b7a6901167',
-  'call': 'api.openweathermap.org/data/2.5/'
+  'call': 'https://api.openweathermap.org/data/2.5/'
 }
 
 function App() {
@@ -15,17 +16,16 @@ function App() {
 
   const search = evt => {
 
+
     if (evt.key === "Enter") {
       console.log(`${api.call}weather?q=${query},karnataka,ind&units=metric&APPID=${api.key}`)
       fetch(`${api.call}weather?q=${query},karnataka,ind&units=metric&APPID=${api.key}`)
-        .then(res =>
-          res.text())
-          .then(text => console.log(text))
-        /*.then(result => {
+        .then(res =>res.json())
+        .then(result => {
           setWeather(result);
           setQuery('');
           console.log(weather);
-        });*/
+        });
     
       }
       console.log(query)
@@ -44,42 +44,49 @@ function App() {
   }
   
   return (
-    <div className = "container">
+    <React.Fragment>                    
+      
       <Navbar>
       </Navbar>
-      <div className={(typeof weather.main != "undefined") ? ((weather.main.temp > 16) ? 'app warm' : 'app') : 'app'}>
-        
-        <main>
-          <div className="search-box">
-            <input 
-              type="text"
-              className="search-bar"
-              placeholder="Search..."
-              onChange={(e)=> setQuery(e.target.value)}
-              value={query}
-              onKeyPress={search}
-            />
-          </div>
-          
-          {(typeof weather.main != "undefined") ? (
-          
-          <div>
-            <div className="location-box">
-              <div className="location">{weather.name}, {weather.sys.country}</div>
-              <div className="date">{dateBuilder(new Date())}</div>
-            </div>
+      
+      <Router>
+        <Switch>
+          <Route exact path = "/About" component={About}/>
+          <div className={(typeof weather.main != "undefined") ? ((weather.weather.main === "Drizzle") ? 'app warm' : ((weather.main.temp > 16)? 'app drizzle': 'app warm')) : 'app'}>
             
-            <div className="weather-box">
-              <div className="temp">
-                {Math.round(weather.main.temp)}°c
+            <main>
+              <div className="search-box">
+                <input 
+                  type="text"
+                  className="search-bar"
+                  placeholder="Search..."
+                  onChange={(e)=> setQuery(e.target.value)}
+                  value={query}
+                  onKeyPress={search}
+                />
               </div>
-              <div className="weather">{weather.weather[0].main}</div>
-            </div>
+              
+              {(typeof weather.main != "undefined") ? (
+              
+              <div>
+                <div className="location-box">
+                  <div className="location">{weather.name}, {weather.sys.country}</div>
+                  <div className="date">{dateBuilder(new Date())}</div>
+                </div>
+                
+                <div className="weather-box">
+                  <div className="temp">
+                    {Math.round(weather.main.temp)}°c
+                  </div>
+                  <div className="weather">{weather.weather[0].main}</div>
+                </div>
+              </div>
+              ) : ('')}      
+            </main>    
           </div>
-          ) : ('')}      
-        </main>    
-      </div>
-    </div>
+        </Switch>
+      </Router>
+    </React.Fragment>
   );
 }
 

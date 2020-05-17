@@ -9,7 +9,7 @@ body {
 }
 
 .app {
-  background-image: url('./assets/warm.jpg');
+  background-image: url('./assets/forecast.jpg');
   background-size: cover;
   background-position: bottom;
   transition: 0.4 ease;
@@ -17,6 +17,9 @@ body {
 
 .app.warm {
   background-image: url('./assets/warm.jpg');
+}
+.app.drizzle{
+  background-image: url('./assets/rainy.jpg')
 }
 
 main {
