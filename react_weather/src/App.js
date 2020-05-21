@@ -2,6 +2,7 @@ import React, { useState }from 'react';
 import Navbar from "./layout/navbar";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import About from "./layout/About"
+import FormField from "./layout/Form"
 
 //api call api.openweathermap.org/data/2.5/weather?q={city name},{state},{country code}&appid={your api key}
 const api = {
@@ -55,7 +56,11 @@ function App() {
           <div className={(typeof weather.main != "undefined") ? ((weather.weather.main === "Drizzle") ? 'app warm' : ((weather.main.temp > 16)? 'app drizzle': 'app warm')) : 'app'}>
             
             <main>
-              <div className="search-box">
+              <FormField text ="City" placeholder = "Enter your City" >
+              </FormField>
+              <FormField text ="State" placeholder = "Enter your state" >
+              </FormField>
+              {/* <div className="search-box">
                 <input 
                   type="text"
                   className="search-bar"
@@ -64,7 +69,10 @@ function App() {
                   value={query}
                   onKeyPress={search}
                 />
-              </div>
+
+
+              </div> */}
+              
               
               {(typeof weather.main != "undefined") ? (
               
